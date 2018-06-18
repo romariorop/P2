@@ -2,6 +2,8 @@
 #include <stdio.h>
 typedef struct node_ {
     int value;
+    char cvalue; // usado apenas no Q3
+    int frequency; // usado apenas no Q3
     struct Node *next;
 }Node;
 
@@ -55,6 +57,19 @@ void addToLinkedListBack(LinkedList* list, int value) {
     ++list->size;
 }
 
+void addToLinkedListBackWithFrequency(LinkedList*list, char value, int frequency) {
+    Node* node = newNode(-1);
+    node->cvalue = value;
+    node->frequency = frequency;
+    if(list->size == 0){
+        list->front = list->back = node;
+    } else {
+        list->back->next = node;
+        list->back = node;
+    }
+    ++list->size;
+}
+
 void removeFromLinkedList(LinkedList* list, int value){
     if(list == NULL)return;
     if(list->size == 1 && list->front->value == value){
@@ -92,4 +107,13 @@ void printLinkedList(LinkedList* list) {
         temp = temp->next;
     }
     printf("\n");
+}
+
+void printLinkedListQ3(LinkedList* list) {
+    if(list == NULL)return;
+    Node* temp = list->front;
+    while(temp != NULL){
+        printf("(char-> %c total-> %d)\n", temp->cvalue, temp->frequency);
+        temp = temp->next;
+    }
 }
