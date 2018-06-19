@@ -10,6 +10,7 @@ typedef struct _node{
 typedef struct _linkedList{
     Node* front;
     Node* back;
+    Node* lastInserted; // only for Q2
     int size;
 }LinkedList;
 
@@ -26,6 +27,7 @@ LinkedList* newLinkedList(){
     list->size = 0;
     list->front = NULL;
     list->back = NULL;
+    list->lastInserted = NULL;
     return list;
 }
 
