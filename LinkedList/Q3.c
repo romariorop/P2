@@ -1,3 +1,9 @@
+/*Suponha que um texto est ́a armazenado em um array onde cada posição contemum caracter.
+O texto pode conter os 256 caracteres da tabela ASCII. Escreva uma fun ̧c ̃ao para criar uma
+lista encadeada onde cada n ́o possui o caracter e a sua frequência no texto. Para esta questão,
+navegar pela lista que est ́a sendo criada  ́e proibido. Lembre-se que para inserir um nó na lista,
+podemos ter O(1).*/
+
 #include "LinkedList.c"
 #include <stdio.h>
 
