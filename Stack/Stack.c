@@ -35,6 +35,11 @@ Stack* newStack() {
     return stack;
 }
 
+int isEmpty(Stack* stack){
+    if(stack == NULL)return 1;
+    return stack->size == 0;
+}
+
 int getTop(Stack* stack){
     return stack->top->value;
 }
@@ -60,6 +65,9 @@ void pushC(Stack* stack, char value){
     Node* node = newNodeC(value);
     stack->size++;
     if(stack->top == NULL){
+        stack->top = node;
+    }else {
+        node->next = stack->top;
         stack->top = node;
     }
 }
