@@ -34,11 +34,11 @@ void mergeSort(int numbers[], int left, int right, int aux[]) {
 
 int main() {
     int aux[100];
-    int numbers[] = {6, 4, 2, 1, 3, 5, 7};
-    for(int i = 0; i < 7; ++i) printf(" %d", numbers[i]);
+    int numbers[] = {32, 51, 54, 7, 62, 5, 92, 13, 8 ,47};
+    for(int i = 0; i < 10; ++i) printf(" %d", numbers[i]);
     puts("");
-    mergeSort(numbers, 0, 6, aux);
-    for(int i = 0; i < 7; ++i) printf(" %d", numbers[i]);
+    mergeSort(numbers, 0, 9, aux);
+    for(int i = 0; i < 10; ++i) printf(" %d", numbers[i]);
     puts("");
     return 0;
 }

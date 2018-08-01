@@ -20,11 +20,11 @@ void quickSort(int numbers[], int left, int right) {
 
 int main() {
     int aux[100];
-    int numbers[] = {6, 6, 2, 7, 2, 5, 7};
-    for(int i = 0; i < 7; ++i) printf(" %d", numbers[i]);
+    int numbers[] = {32, 51, 54, 7, 62, 5, 92, 13, 8 ,47};
+    for(int i = 0; i < 10; ++i) printf(" %d", numbers[i]);
     puts("");
-    quickSort(numbers, 0, 6);
-    for(int i = 0; i < 7; ++i) printf(" %d", numbers[i]);
+    quickSort(numbers, 0, 9);
+    for(int i = 0; i < 10; ++i) printf(" %d", numbers[i]);
     puts("");
     return 0;
 }
