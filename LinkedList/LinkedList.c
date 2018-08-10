@@ -1,119 +1,104 @@
-#include <stdlib.h>
 #include <stdio.h>
-typedef struct node_ {
-    int value;
-    char cvalue; // usado apenas no Q3
-    int frequency; // usado apenas no Q3
-    struct Node *next;
-}Node;
+#include <stdlib.h>
+#include "Node.c"
 
-typedef struct linkedList_ {
-    Node *front;
-    Node *back;
+typedef struct LinkedList{
     int size;
+    Node *head;
 }LinkedList;
 
-Node* newNode(int x){
-    Node* node = (Node*) malloc(sizeof(Node));
-    node->value = x;
-    node->next = NULL;
-    return node;
+LinkedList *createList() {
+    LinkedList *newList = (LinkedList*) malloc(sizeof(LinkedList));
+    newList->size = 0;
+    newList->head = NULL;
+    return newList;
 }
 
-LinkedList* newLinkedList(){
-    LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-    list->size = 0;
-    list->front = NULL;
-    list->back = NULL;
-    return list;
+void addFront(LinkedList *list, int value) {
+    list->head = appendInFront(list->head, value);
+    list->size++;
 }
 
-int getLinkedListSize(LinkedList* list){
-    if(list == NULL){
-        return -1;
+void printList(LinkedList *list){
+    Node *temp = list->head;
+    if(temp == NULL){
+        printf("Empty List!");
     }
-    return list->size;
-}
-
-void addToLinkedListFront(LinkedList* list, int value) {
-    Node* node = newNode(value);
-    if(list->size == 0){
-        list->front = list->back = node;
-    } else {
-        node->next = list->front;
-        list->front = node;
-    }
-    ++list->size;
-}
-
-void addToLinkedListBack(LinkedList* list, int value) {
-    Node* node = newNode(value);
-    if(list->size == 0){
-        list->front = list->back = node;
-    } else {
-        list->back->next = node;
-        list->back = node;
-    }
-    ++list->size;
-}
-
-void addToLinkedListBackWithFrequency(LinkedList*list, char value, int frequency) {
-    Node* node = newNode(-1);
-    node->cvalue = value;
-    node->frequency = frequency;
-    if(list->size == 0){
-        list->front = list->back = node;
-    } else {
-        list->back->next = node;
-        list->back = node;
-    }
-    ++list->size;
-}
-
-void removeFromLinkedList(LinkedList* list, int value){
-    if(list == NULL)return;
-    if(list->size == 1 && list->front->value == value){
-        free(list->front);
-        --list->size;
-        list->front = list->back = NULL;
-    } else if(list->size > 1) {
-        Node* previous = list->front;
-        Node* current = previous->next;
-        if(previous->value == value){
-            list->front = current;
-            free(previous);
-            --list->size;
-            return;
-        }
-        while(current != NULL){
-            if(current->value == value){
-                previous->next = current->next;
-                --list->size;
-                free(current);
-                return;
-            }
-            previous = previous->next;
-            current = current->next;
-        }
-    }
-
-}
-
-void printLinkedList(LinkedList* list) {
-    if(list == NULL)return;
-    Node* temp = list->front;
     while(temp != NULL){
         printf("%d ", temp->value);
         temp = temp->next;
     }
-    printf("\n");
+    puts("");
 }
 
-void printLinkedListQ3(LinkedList* list) {
-    if(list == NULL)return;
-    Node* temp = list->front;
-    while(temp != NULL){
-        printf("(char-> %c total-> %d)\n", temp->cvalue, temp->frequency);
-        temp = temp->next;
+int isEmpty(LinkedList *list){
+    return list->size == 0;
+}
+
+void reverseList(LinkedList *list) {
+    Node *firstHead, *secondHead, *aux;
+    if(list == NULL || list->size < 2)return;
+    secondHead = list->head;
+    firstHead = secondHead->next;
+    secondHead->next = NULL;
+
+    while(firstHead != NULL) {
+        aux = firstHead->next;
+        firstHead->next = secondHead;
+        secondHead = firstHead;
+        firstHead = aux;
+    }
+
+    list->head = secondHead;
+}
+
+int getMaxPos(LinkedList*list, int upper){
+    int pos = 0;
+    int cur = 0;
+    int bigger = list->head->value;
+    Node *current = list->head;
+    while(current != NULL && cur < upper){
+        if(current->value > bigger){
+            bigger = current->value;
+            pos = cur;
+        }
+        ++cur;
+        current = current->next;
+    }
+    return pos;
+}
+
+void shiftNode(LinkedList*list, int begin, int end){
+    int pos = 0;
+    Node *current = list->head;
+    Node *previous = NULL;
+    Node *next;
+    while(pos != begin){
+        previous = current;
+        current = current->next;
+        ++pos;
+    }
+    while(pos < end - 1){
+        if(previous == NULL){
+            previous = current->next;
+            current->next = previous->next;
+            previous->next = current;
+            list->head = previous;
+        } else {
+            next = current->next->next;
+            previous->next = current->next;
+            previous->next->next = current;
+            current->next = next;
+            previous = previous->next;
+        }
+        ++pos;
+    }
+}
+
+void sortList(LinkedList* list){
+    if(list == NULL || list->size < 2)return;
+    for(int i = 0; i < list->size; ++i){
+        int pos = getMaxPos(list, list->size-i);
+        shiftNode(list, pos, list->size-i);
     }
 }
